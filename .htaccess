@@ -6,7 +6,10 @@ RewriteCond %{REQUEST_URI} !^/(web)
 RewriteRule ^assets/(.*)$ /web/assets/$1 [L]
 RewriteRule ^css/(.*)$ web/css/$1 [L]
 RewriteRule ^js/(.*)$ web/js/$1 [L]
-RewriteRule ^images/(.*)$ web/images/$1 [L]
+RewriteRule ^img/(.*)$ web/img/$1 [L]
+RewriteRule ^fonts/(.*)$ web/fonts/$1 [L]
+RewriteRule ^scss/(.*)$ web/scss/$1 [L]
+RewriteRule ^colorlib-sear-23/(.*)$ web/colorlib-search-23/$1 [L]
 RewriteRule ^backend/(.*)$ web/backend/$1 [L]
 RewriteRule (.*) /web/$1
  
