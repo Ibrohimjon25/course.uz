@@ -21,6 +21,9 @@ class m190930_094956_create_table_message extends Migration
             'description_uz'=>'string',
             'description_en'=>'string',
             'description_ru'=>'string',
+            'title_uz'=>'string',
+            'title_en'=>'string',
+            'title_ru'=>'string',
             'img'=>'string'
         ]);
     }

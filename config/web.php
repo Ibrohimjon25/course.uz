@@ -16,7 +16,20 @@ $config = [
             'class' => 'app\modules\admin\Module',
         ],
     ],
+    'language'=>'uz',
     'components' => [
+        'i18n'=>[
+            'translations'=>[
+                'yii'=>[
+                    'class'=>'yii\i18n\PhpMessageSource',
+                    'sourceLanguage'=>'en',
+                ],
+            ],
+        ],
+        'helper'=>[
+            'class'=>'\app\components\Helper',
+            
+        ],
         
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -52,11 +65,13 @@ $config = [
         'db' => $db,
         
         'urlManager' => [
-        'enablePrettyUrl' => true,
-        'showScriptName' => false,
-        'rules' => [
-            '<action>.cpp' => 'site/<action>',                                
-            '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
+            'class'=>'codemix\localeurls\UrlManager',
+            'languages'=>['uz', 'ru', 'en'],
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => [
+                '<action>.html' => 'site/<action>',
+                '<controller>/<action>' => '<controller>/<action>',
         ],
 ],
         

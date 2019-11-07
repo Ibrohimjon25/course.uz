@@ -1,38 +1,20 @@
 <?php
 
+
 namespace app\models;
+use Yii;
 
 class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
-    // public $id;
-    // public $username;
-    // public $password;
-    // public $authKey;
-    // public $accessToken;
-
-    // private static $users = [
-    //     '100' => [
-    //         'id' => '100',
-    //         'username' => 'admin',
-    //         'password' => 'admin',
-    //         'authKey' => 'test100key',
-    //         'accessToken' => '100-token',
-    //     ],
-    //     '101' => [
-    //         'id' => '101',
-    //         'username' => 'demo',
-    //         'password' => 'demo',
-    //         'authKey' => 'test101key',
-    //         'accessToken' => '101-token',
-    //     ],
-    // ];
+   
     public static function tableName(){
         return 'user';
     }
 
     public function rules(){
         return [
-            [['username', 'password'], 'string'],
+            [['username', 'password', 'authKey', 'accessToken', 'status', 'img', 'email'], 'string'],
+            [['img'], 'file', 'extensions' => 'jpg, png', 'mimeTypes' => 'image/jpeg, image/png'],
         ];
     }
 
@@ -41,6 +23,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             'id'=>'ID',
             'username'=>'username',
             'password'=>'password',
+            'img'=>'Foto',
+            'status'=>'Status',
         ];
     }
 

@@ -19,6 +19,8 @@ class m190930_140943_create_table_user extends Migration
             'accessToken'=>'string',
             'password'=>'string',
             'status'=>'string'
+            'img'=>'string',
+            'email'=>'string'
         ]);
     }
 

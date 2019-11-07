@@ -9,6 +9,11 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Bookk;
+use app\models\Register;
+use app\models\Kurs;
+use yii\web\UploadedFile;
+use app\models\CategoryCourse;
 
 class SiteController extends Controller
 {
@@ -20,10 +25,25 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
+                'only' => ['logout', 'register', 'course'],
                 'rules' => [
                     [
                         'actions' => ['logout'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => ['register'],
+                        'allow' => true,
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'actions' => ['course'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => ['book'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -54,6 +74,25 @@ class SiteController extends Controller
         ];
     }
 
+    public function actionDownload($id){
+        $download = Kurs::findOne($id); 
+        $path = Yii::getAlias('@webroot').'/fayl/'.$download->fayl;
+        
+        if (file_exists($path)) {
+            return Yii::$app->response->sendFile($path);
+        }
+
+    }
+
+    public function actionDownloadd($id){
+        $download = Bookk::findOne($id); 
+        $path = Yii::getAlias('@webroot').'/books/'.$download->kitob;
+        
+        if (file_exists($path)) {
+            return Yii::$app->response->sendFile($path);
+        }
+
+    }
     /**
      * Displays homepage.
      *
@@ -64,6 +103,36 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
+    public function actionSearch($q){
+        // $q = Yii::$app->request->post('q');
+        
+        $query = Kurs::find()->where(['like', 'name_uz', $q])->all();
+        return $this->render('search', [
+            'query'=> $query,
+            'q'=>$q,
+        ]);
+    }
+
+
+    public function actionCategoryCourse(){
+        return $this->render('category-course');
+    }
+
+    public function actionCourse(){
+        return $this->render('course');
+    }
+
+    public function actionKurs($id){
+        $model = Kurs::find()->where(['category_id'=>$id])->all();
+        return $this->render('kurs',[
+            'model'=>$model
+        ]);
+    }
+
+    public function actionBook()
+    {
+        return $this->render('book');
+    }
     /**
      * Login action.
      *
@@ -82,6 +151,23 @@ class SiteController extends Controller
 
         $model->password = '';
         return $this->render('login', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionRegister()
+    {
+        $model = new Register();
+ 
+        if ($model->load(Yii::$app->request->post())) {
+            if ($user = $model->register()) {
+                if (Yii::$app->getUser()->login($user)) {
+                    return $this->goHome();
+                }
+            }
+        }
+ 
+        return $this->render('register', [
             'model' => $model,
         ]);
     }
